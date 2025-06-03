@@ -1,5 +1,3 @@
-// src/components/sections/FloatingAI.jsx
-
 import React, { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -150,19 +148,29 @@ function ExplosionParticles() {
     return posArray;
   });
 
-  const opacity = useRef(1);
+  const [frozen, setFrozen] = useState(false);
+  const startTime = useRef(null);
+  const freezeAfter = 3.5;
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
+    if (!startTime.current) startTime.current = clock.getElapsedTime();
+    const elapsed = clock.getElapsedTime() - startTime.current;
+
+    if (frozen) return;
+
+    if (elapsed > freezeAfter) {
+      setFrozen(true);
+      return;
+    }
+
     const pos = pointsRef.current.geometry.attributes.position.array;
     for (let i = 0; i < velocities.current.length; i++) {
       pos[i * 3] += velocities.current[i][0] * delta;
       pos[i * 3 + 1] += velocities.current[i][1] * delta;
       pos[i * 3 + 2] += velocities.current[i][2] * delta;
     }
-    pointsRef.current.geometry.attributes.position.needsUpdate = true;
 
-    opacity.current -= delta * 0.3;
-    pointsRef.current.material.opacity = Math.max(opacity.current, 0);
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
@@ -179,7 +187,7 @@ function ExplosionParticles() {
         color="#FF61C7"
         size={0.08}
         transparent
-        opacity={1}
+        opacity={0.8}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />

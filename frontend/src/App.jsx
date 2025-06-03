@@ -4,6 +4,7 @@ import Header from "./components/layout/Header";
 import Hero from "./components/sections/Hero";
 
 import AboutMe from "./components/sections/Aboutme.jsx";
+import Education from "./components/sections/Education.jsx";
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Header />
         <Hero />
         <AboutMe/>
+      <Education/>
     </Router>
   );
 }
