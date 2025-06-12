@@ -4,6 +4,8 @@ import Hero from "./components/sections/Hero";
 import AboutMe from "./components/sections/Aboutme";
 import Education from "./components/sections/Education";
 import Experience from "./components/sections/Experience";
+import Projects from "./components/sections/Projects";
+import Highlights from "./components/sections/Highlights";
 
 
 function App() {
@@ -22,6 +24,9 @@ function App() {
                   <Education />
                   <div className="relative z-10"> {/* Ensures Experience stays above */}
                     <Experience />
+                    <Projects/>
+                    <Highlights/>
+
            
                   </div>
                 </>
